@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: docker-build
-        run: sudo docker build myapplatest:v1 .
+        run: sudo docker build myapplatest:v1 
 
   job2:
     runs-on: ubuntu-latest
