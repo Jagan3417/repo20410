@@ -8,19 +8,39 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: docker-build
-        run: sudo docker build myapplatest:v1 
+      - uses: actions/checkout@v4
+
+      - name: Docker Build
+        run: docker build -t myapp:latest .
 
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-      - name: terraform plan
-        run: terraform plan
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: <YOUR-ROLE-ARN>
+          aws-region: us-east-1
+
+      - run: terraform init
+      - run: terraform plan
 
   job3:
     runs-on: ubuntu-latest
     needs: job2
     steps:
-      - name: terraform apply
-        run: terraform apply
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: <YOUR-ROLE-ARN>
+          aws-region: us-east-1
+
+      - run: terraform init
+      - run: terraform apply -auto-approve
