@@ -16,9 +16,7 @@ jobs:
     needs: docker-build
     steps:
       - name: terraform plan
-        run: terraform init
         run: terraform plan
-
 
   job3:
     runs-on: ubuntu-latest
